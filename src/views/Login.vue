@@ -1,0 +1,123 @@
+<template>
+  <div class="w-screen h-screen flex flex-col justify-center items-center">
+    <form
+      class="w-full flex flex-col justify-center items-center"
+      id="form-login"
+      @submit.prevent="submitLogin"
+    >
+      <h2 class="text-3xl my-8 font-semibold font-display text-gray-700">
+        Welcome
+      </h2>
+      <div>
+        <i class="fa fa-user text-primarycolor text-xl"></i>
+        <input
+          class="
+            border-b-2
+            outline-none
+            focus:border-primarycolor
+            text-md
+            transition-all
+            duration-500
+            text-lg
+            ml-3
+          "
+          type="text"
+          placeholder="Email"
+          id="login-email"
+          v-model="user.email"
+        />
+      </div>
+      <div class="mt-8">
+        <i class="fa fa-lock text-primarycolor text-xl"></i>
+        <input
+          class="
+            border-b-2
+            outline-none
+            focus:border-primarycolor
+            text-md
+            transition-all
+            duration-500
+            text-lg
+            ml-3
+          "
+          type="password"
+          placeholder="Password"
+          id="login-password"
+          v-model="user.password"
+        />
+      </div>
+      <div
+        class="mt-8 w-50 text-sm text-red-400"
+        id="login-error-message"
+        v-if="errorMessage"
+      >
+        {{ errorMessage }}
+      </div>
+      <div class="mt-8">
+        <div>
+          <input
+            class="
+              bg-primarycolor
+              text-white
+              rounded-full
+              px-20
+              py-3
+              text-lg
+              font-bold
+              uppercase
+              transform
+              hover:translate-y-1
+              transition-all
+              duration-500
+              cursor-pointer
+            "
+            type="submit"
+            value="Login"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3000";
+export default {
+  name: "Login",
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    submitLogin() {
+      axios({
+        method: "POST",
+        url: "/user/login",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: this.user,
+      })
+        .then(({ data }) => {
+          localStorage.access_token = data.access_token;
+          data.role === "admin"
+            ? (localStorage.isAdmin = true)
+            : (localStorage.isAdmin = false);
+          this.$router.push({ path: "/" });
+        })
+        .catch((err) => {
+          this.errorMessage = err.response.data.error[0];
+        })
+        .finally(() => {
+          this.user.email = "";
+          this.user.password = "";
+        });
+    },
+  },
+};
+</script>
