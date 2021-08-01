@@ -1,17 +1,20 @@
 <template>
-  <div class="container">
-    <div></div>
+  <div class="h-screen bg-homebackground">
+    <div v-for="product in products" :key="product.id" class="flex">
+      <ProductCard :product="product"></ProductCard>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import ProductCard from "../components/ProductCard.vue";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
 
 export default {
   name: "Home",
-  components: {},
+  components: { ProductCard },
   data() {
     return {
       products: [],

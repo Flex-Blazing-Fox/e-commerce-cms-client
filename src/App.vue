@@ -3,7 +3,9 @@
   <router-link to="/login" @submitLogin="submitLogin">Login</router-link>
   <router-link to="/add" v-if="isAdmin">Add</router-link>
   <a class="cursor-pointer" @click.prevent="logout">Logout</a>
-  <router-view />
+  <div>
+    <router-view />
+  </div>
 </template>
 
 <script>
