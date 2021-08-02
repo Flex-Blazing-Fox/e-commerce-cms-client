@@ -1,7 +1,9 @@
 <template>
-  <div class="h-screen bg-homebackground">
-    <div v-for="product in products" :key="product.id" class="flex">
+  <div class="h-screen bg-homebackground flex mt-3">
+    <div v-for="product in products" :key="product.id">
       <ProductCard :product="product"></ProductCard>
+      <a class="mr-2" v-if="isAdmin">Edit</a>
+      <a v-if="isAdmin">Delete</a>
     </div>
   </div>
 </template>
@@ -14,6 +16,7 @@ axios.defaults.baseURL = "http://localhost:3000";
 
 export default {
   name: "Home",
+  props: ["isAdmin"],
   components: { ProductCard },
   data() {
     return {
