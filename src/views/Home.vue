@@ -16,33 +16,17 @@ axios.defaults.baseURL = "http://localhost:3000";
 
 export default {
   name: "Home",
-  props: ["isAdmin"],
   components: { ProductCard },
-  data() {
-    return {
-      products: [],
-    };
-  },
-  methods: {
-    getProducts() {
-      axios({
-        method: "GET",
-        url: "/product",
-        headers: {
-          "Content-Type": "application/json",
-          access_token: localStorage.access_token,
-        },
-      })
-        .then(({ data }) => {
-          this.products = data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  computed: {
+    products() {
+      return this.$store.state.products
     },
+    isAdmin() {
+      return this.$store.state.isAdmin
+    }
   },
   created() {
-    this.getProducts();
+    this.$store.dispatch("getProducts");
   },
 };
 </script>

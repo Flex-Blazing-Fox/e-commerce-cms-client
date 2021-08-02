@@ -95,28 +95,9 @@ export default {
   },
   methods: {
     submitLogin() {
-      axios({
-        method: "POST",
-        url: "/user/login",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: this.user,
-      })
-        .then(({ data }) => {
-          localStorage.access_token = data.access_token;
-          data.role === "admin"
-            ? (localStorage.isAdmin = true)
-            : (localStorage.isAdmin = false);
-          this.$router.push({ path: "/" });
-        })
-        .catch((err) => {
-          this.errorMessage = err.response.data.error[0];
-        })
-        .finally(() => {
-          this.user.email = "";
-          this.user.password = "";
-        });
+      this.$store.dispatch("submitLogin", this.user)
+      this.user.email = "";
+      this.user.password = "";
     },
   },
 };
