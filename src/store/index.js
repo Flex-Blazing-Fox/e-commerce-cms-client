@@ -5,7 +5,6 @@ import router from "../router";
 export default createStore({
   state: {
     products: [],
-    isLogin: false,
     isAdmin: false,
     access_token: "",
   },
@@ -13,12 +12,8 @@ export default createStore({
     SET_PRODUCTS(state, payload) {
       state.products = payload;
     },
-    SET_IS_ADMIN(state) {
-      if (!state.isAdmin) {
-        state.isAdmin = true;
-      } else {
-        state.isAdmin = false;
-      }
+    SET_IS_ADMIN(state, payload) {
+      state.isAdmin = payload;
     },
     SET_ACCESS_TOKEN(state, payload) {
       state.access_token = payload;
@@ -40,27 +35,60 @@ export default createStore({
           console.log(err);
         });
     },
-    submitLogin({ commit }, payload) {
-      axios({
+    getProduct(context, payload) {
+      return axios({
+        method: "GET",
+        url: `/product/${payload}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    },
+    addProduct({ state }, payload) {
+      return axios({
+        method: "POST",
+        url: "/product",
+        headers: {
+          "Content-Type": "application/json",
+          access_token: state.access_token,
+        },
+        data: payload,
+      });
+    },
+    deleteProduct({ state }, payload) {
+      return axios({
+        method: "DELETE",
+        url: `/product/${payload}`,
+        headers: {
+          "Content-Type": "application/json",
+          access_token: state.access_token,
+        },
+      });
+    },
+    editProduct({ state }, payload) {
+      return axios({
+        method: "PUT",
+        url: `/product/${payload.id}`,
+        headers: {
+          "Content-Type": "application/json",
+          access_token: state.access_token,
+        },
+        data: payload.product,
+      });
+    },
+    submitLogin(context, payload) {
+      return axios({
         method: "POST",
         url: "/user/login",
         headers: {
           "Content-Type": "application/json",
         },
         data: payload,
-      })
-        .then(({ data }) => {
-          commit("SET_ACCESS_TOKEN", data.access_token);
-          if (data.role === "admin") commit("SET_IS_ADMIN");
-          router.push({ path: "/" });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      });
     },
     logout({ commit }) {
       commit("SET_ACCESS_TOKEN", "");
-      commit("SET_IS_ADMIN");
+      commit("SET_IS_ADMIN", false);
       router.push({ path: "/" });
     },
   },

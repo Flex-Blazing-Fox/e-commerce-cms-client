@@ -91,13 +91,25 @@ export default {
         email: "",
         password: "",
       },
+      errorMessage: "",
     };
   },
   methods: {
     submitLogin() {
-      this.$store.dispatch("submitLogin", this.user)
-      this.user.email = "";
-      this.user.password = "";
+      this.$store
+        .dispatch("submitLogin", this.user)
+        .then(({ data }) => {
+          this.$store.commit("SET_ACCESS_TOKEN", data.access_token);
+          if (data.role === "admin") this.$store.commit("SET_IS_ADMIN", true);
+          this.$router.push({ path: "/" });
+        })
+        .catch((err) => {
+          this.errorMessage = err.response.data.error[0];
+        })
+        .finally(() => {
+          this.email = "";
+          this.password = "";
+        });
     },
   },
 };

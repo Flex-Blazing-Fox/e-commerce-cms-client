@@ -10,7 +10,7 @@
     "
   >
     <div class="w-1/2 mb-7">
-      <h2 class="text-4xl text-white font-display font-bold">Add Product</h2>
+      <h2 class="text-4xl text-white font-display font-bold">Edit Product</h2>
     </div>
     <div
       :class="{
@@ -20,7 +20,7 @@
           errorMessage,
       }"
     >
-      <form id="form-add" @submit.prevent="submitProduct">
+      <form id="form-add" @submit.prevent="editProduct">
         <div>
           <label class="text-2xl font-display mt-6 ml-7 inline-block" for="name"
             >Product Name</label
@@ -146,7 +146,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "AddProduct",
+  name: "EditProduct",
   data() {
     return {
       product: {
@@ -159,25 +159,40 @@ export default {
     };
   },
   methods: {
-    submitProduct() {
+    editProduct() {
       this.$store
-        .dispatch("addProduct", this.product)
+        .dispatch("editProduct", {
+          id: this.$route.params.id,
+          product: {
+            name: this.product.name,
+            image_url: this.product.image_url,
+            price: parseInt(this.product.price),
+            stock: parseInt(this.product.stock),
+          },
+        })
         .then(() => {
           this.$router.push({ path: "/" });
         })
         .catch((err) => {
           this.errorMessage = err.response.data.error[0];
-        })
-        .finally(() => {
-          this.name = "";
-          this.image_url = "";
-          this.price = "";
-          this.stock = "";
         });
     },
     backToHome() {
       this.$router.push({ path: "/" });
     },
+  },
+  created() {
+    this.$store
+      .dispatch("getProduct", this.$route.params.id)
+      .then(({ data }) => {
+        this.product.name = data.name;
+        this.product.image_url = data.image_url;
+        this.product.price = data.price;
+        this.product.stock = data.stock;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>
