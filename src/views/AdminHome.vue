@@ -40,7 +40,7 @@
           <select class="w-full h-full py-3 px-2 bg-white">
             <option selected>Tipe Produk</option>
             <option value="Sling bag">Sling bag</option>
-            <option value="Shoulder bag">Shoulder bag</option>
+            <option value="Shoulder bag">Shoulder bags</option>
           </select>
         </div>
       </div>
