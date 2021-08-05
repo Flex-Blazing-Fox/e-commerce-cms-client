@@ -1,4 +1,5 @@
 <template>
+  <Header></Header>
   <div class="h-screen bg-homebackground flex mt-3">
     <div v-for="product in products" :key="product.id">
       <ProductCard :product="product"></ProductCard>
@@ -21,12 +22,13 @@
 <script>
 // @ is an alias to /src
 import ProductCard from "../components/ProductCard.vue";
+import Header from "../components/Header.vue"
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
 
 export default {
   name: "Home",
-  components: { ProductCard },
+  components: { ProductCard, Header },
   methods: {
     deleteProduct(id) {
       this.$store
