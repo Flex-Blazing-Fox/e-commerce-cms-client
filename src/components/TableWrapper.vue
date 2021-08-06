@@ -1,6 +1,8 @@
 <template>
   <div class="px-7">
-    <slot></slot>
+    <table class="table-auto w-full">
+      <slot></slot>
+    </table>
   </div>
 </template>
 
@@ -11,5 +13,7 @@ export default {
 </script>
 
 <style>
-
+table {
+  width: 100%;
+}
 </style>

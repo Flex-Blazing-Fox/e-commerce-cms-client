@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style>
-
+th {
+  padding: 8px;
+}
 </style>

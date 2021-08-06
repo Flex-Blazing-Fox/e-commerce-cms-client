@@ -1,22 +1,22 @@
 <template>
   <BodyWrapper>
     <Navbar />
-    <Wrapper>
-      <Banner 
-        title="Tambah Produk" 
-        description="Tambahkan produk baru pada database" 
-        buttonName="Produk Baru"
-      />
-      <Banner 
-        title="Tambah Tipe" 
-        description="Tambahkan tipe produk baru pada database" 
-        buttonName="Tipe Baru"
-      />
-    </Wrapper>
-    <Wrapper>
-      <Sidebar title="Filter"/>
-      <ProductTable />
-    </Wrapper>
+      <Wrapper size="w-3/5">
+        <Banner 
+          title="Tambah Produk" 
+          description="Tambahkan produk baru pada database" 
+          buttonName="Produk Baru"
+        />
+        <Banner 
+          title="Tambah Tipe" 
+          description="Tambahkan tipe produk baru pada database" 
+          buttonName="Tipe Baru"
+        />
+      </Wrapper>
+      <Wrapper size="w-4/5">
+        <Sidebar title="Filter"/>
+        <ProductTable />
+      </Wrapper>
   </BodyWrapper>
 </template>
 
@@ -37,16 +37,10 @@ export default {
     Banner,
     Sidebar,
     ProductTable
+  },
+  created() {
+    this.$store.dispatch('fetchProducts')
+    this.$store.dispatch('fetchTypes')
   }
 }
 </script>
-
-<style scoped>
-th {
-  text-align: left;
-}
-
-th, td {
-  padding: 1em;
-}
-</style>

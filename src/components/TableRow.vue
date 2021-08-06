@@ -24,5 +24,7 @@ export default {
 </script>
 
 <style>
-
+td {
+  padding: 8px 2em;
+}
 </style>
