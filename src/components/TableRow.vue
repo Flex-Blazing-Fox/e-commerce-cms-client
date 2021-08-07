@@ -8,8 +8,8 @@
     <td>{{ data.createdAt }}</td>
     <td>
       <div class="flex flex-row gap-2">
-        <i class='bx bx-edit text-green-400 hover:text-green-600 text-2xl cursor-pointer'></i>
-        <i class='bx bx-trash-alt text-red-400 hover:text-red-600 text-2xl cursor-pointer'></i>
+        <i @click.prevent="toEditPage(data.id)" class='bx bx-edit text-green-400 hover:text-green-600 text-2xl cursor-pointer'></i>
+        <i @click.prevent="deleteProduct(data.id)" class='bx bx-trash-alt text-red-400 hover:text-red-600 text-2xl cursor-pointer'></i>
       </div>
     </td>
   </tr>
@@ -19,6 +19,14 @@
 export default {
   props: {
     data: Object
+  },
+  methods: {
+    deleteProduct (productId) {
+      this.$store.dispatch('deleteProduct', productId)
+    },
+    toEditPage (productId) {
+      this.$router.push('/edit-product/' + productId)
+    }
   }
 }
 </script>

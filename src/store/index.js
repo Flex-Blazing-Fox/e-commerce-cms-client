@@ -10,7 +10,7 @@ export default createStore({
     types: [],
     products: [],
     adminEmail: '',
-    adminPassword: ''
+    adminPassword: '',
   },
   mutations: {
     SET_PRODUCTS(state, payload) {
@@ -37,6 +37,9 @@ export default createStore({
     REMOVE_ADMIN_CREDENTIALS(state) {
       state.adminEmail = ''
       state.adminPassword = ''
+    },
+    SET_TYPE_NAME(state, type) {
+      state.typeName = type
     }
   },
   actions: {
@@ -46,8 +49,11 @@ export default createStore({
           commit('SET_PRODUCTS', data.products)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
         })
+    },
+    fetchProduct(context, productId) {
+      return axios.get('/products/' + productId)
     },
     fetchTypes({ commit }) {
       axios.get('/types')
@@ -55,7 +61,7 @@ export default createStore({
           commit('SET_TYPES', data.types)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data.errors)
         })
     },
     adminLogin({ commit, state }) {
@@ -73,10 +79,22 @@ export default createStore({
           router.push('/')
         })
         .catch(err => {
-          console.log(err.response)
+          console.log(err.response.data.errors)
+        })
+    },
+    deleteProduct({ dispatch }, productId) {
+      axios({
+        url: '/products/' + productId,
+        method: 'DELETE',
+        headers: { access_token: localStorage.access_token }
+      })
+        .then(message => {
+          console.log(message)
+          dispatch('fetchProducts')
+        })
+        .catch(err => {
+          console.log(err.response.data.errors)
         })
     }
-  },
-  modules: {
   }
 })

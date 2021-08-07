@@ -3,6 +3,7 @@ import AdminHome from '../views/AdminHome.vue'
 import EditProduct from '../views/EditProduct.vue'
 import AddProduct from '../views/AddProduct.vue'
 import AdminLogin from '../views/AdminLogin.vue'
+import AddType from '../views/AddType.vue'
 
 const routes = [
   {
@@ -16,7 +17,7 @@ const routes = [
     component: AdminLogin
   },
   {
-    path: '/edit-product',
+    path: '/edit-product/:id',
     name: 'EditProduct',
     component: EditProduct
   },
@@ -24,6 +25,11 @@ const routes = [
     path: '/add-product',
     name: 'AddProduct',
     component: AddProduct
+  },
+  {
+    path: '/add-type',
+    name: 'AddType',
+    component: AddType
   }
 ]
 

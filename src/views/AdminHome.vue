@@ -6,11 +6,13 @@
           title="Tambah Produk" 
           description="Tambahkan produk baru pada database" 
           buttonName="Produk Baru"
+          @click="toAddProduct"
         />
         <Banner 
           title="Tambah Tipe" 
           description="Tambahkan tipe produk baru pada database" 
           buttonName="Tipe Baru"
+          @click="toAddType"
         />
       </Wrapper>
       <Wrapper size="w-4/5">
@@ -41,6 +43,14 @@ export default {
   created() {
     this.$store.dispatch('fetchProducts')
     this.$store.dispatch('fetchTypes')
+  },
+  methods: {
+    toAddProduct () {
+      this.$router.push('/add-product')
+    },
+    toAddType () {
+      this.$router.push('/add-type')
+    }
   }
 }
 </script>

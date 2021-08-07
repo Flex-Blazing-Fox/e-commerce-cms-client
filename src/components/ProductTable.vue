@@ -1,7 +1,11 @@
 <template>
   <TableWrapper>
     <TableHead />
-    <TableRow v-for="product in products" :key="product.id" :data="product" />
+    <TableRow 
+      v-for="product in products" 
+      :key="product.id"
+      :data="product"  
+    />
   </TableWrapper>
 </template>
 
