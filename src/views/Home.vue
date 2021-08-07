@@ -1,6 +1,7 @@
 <template>
   <Header></Header>
-  <div class="h-screen bg-homebackground flex mt-3">
+  <div class="mt-10 ml-20 font-bold text-3xl text-yellow-600">Lagi Hot Sekarang</div>
+  <div class="h-screen flex mt-10 justify-evenly">
     <div v-for="product in products" :key="product.id">
       <ProductCard :product="product"></ProductCard>
       <a
@@ -23,8 +24,6 @@
 // @ is an alias to /src
 import ProductCard from "../components/ProductCard.vue";
 import Header from "../components/Header.vue"
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
 
 export default {
   name: "Home",

@@ -42,7 +42,7 @@
           ref="lihatBarangViralButton"
           id="lihatBarangViralButton"
         >
-          Lihat Barang Viral
+          Lihat Yang Hot
         </button>
       </div>
       <img

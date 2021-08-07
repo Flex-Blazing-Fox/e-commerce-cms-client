@@ -3,3 +3,29 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@layer utilities {
+  .overlay {
+    position: absolute;
+    opacity: 0;
+    transition: 0.3 ease;
+    background-color: black;
+    height: 77.5%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+  }
+  .icons-card {
+    z-index: 4;
+    opacity: 0;
+  }
+  .container:hover .overlay {
+    opacity: 0.5;
+  }
+  .container:hover .icons-card {
+    opacity: 1;
+  }
+}
