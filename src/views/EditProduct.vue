@@ -67,7 +67,7 @@
             v-model="product.image_url"
           />
         </div>
-        <div class="flex items-center justify-evenly">
+        <div class="flex items-center ml-7 my-2">
           <div>
             <label for="price">Price</label><br />
             <input
@@ -75,7 +75,6 @@
                 w-11/12
                 text-lg
                 my-2
-                ml-7
                 border-b-2
                 focus:border-primarycolor
                 outline-none
@@ -95,7 +94,7 @@
                 w-11/12
                 text-lg
                 my-2
-                ml-7
+                ml-2
                 border-b-2
                 focus:border-primarycolor
                 outline-none
@@ -115,7 +114,8 @@
         <input
           class="
             ml-8
-            mt-8
+            mt-4
+            mb-4
             bg-primarycolor
             px-4
             py-1
@@ -134,9 +134,9 @@
     <div class="w-1/2 mt-4">
       <a
         class="text-white cursor-pointer justify-self-start font-medium"
-        @click.prevent="backToHome"
+        @click.prevent="backToCMS"
       >
-        Back To Home Page</a
+        Back To CMS</a
       >
     </div>
   </div>
@@ -171,14 +171,14 @@ export default {
           },
         })
         .then(() => {
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: "/products-admin" });
         })
         .catch((err) => {
           this.errorMessage = err.response.data.error[0];
         });
     },
-    backToHome() {
-      this.$router.push({ path: "/" });
+    backToCMS() {
+      this.$router.push({ path: "/products-admin" });
     },
   },
   created() {

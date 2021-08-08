@@ -101,7 +101,11 @@ export default {
         .then(({ data }) => {
           this.$store.commit("SET_ACCESS_TOKEN", data.access_token);
           if (data.role === "admin") this.$store.commit("SET_IS_ADMIN", true);
-          this.$router.push({ path: "/" });
+          if (data.role === "admin") {
+            this.$router.push({ path: "/products-admin" });
+          } else {
+            this.$router.push({ path: "/" });
+          }
         })
         .catch((err) => {
           this.errorMessage = err.response.data.error[0];

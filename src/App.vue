@@ -22,7 +22,9 @@
       <div class="mr-40 mt-8 font-display font-medium text-lg">
         <router-link to="/" class="mr-8 text-white">Home</router-link>
         <router-link to="/" class="mr-8 text-white">About</router-link>
-        <router-link to="/" class="mr-8 text-white">Products</router-link>
+        <router-link :to="productTo" class="mr-8 text-white"
+          >Products</router-link
+        >
         <router-link to="/" class="mr-8 text-white">Contact</router-link>
         <router-link to="/login" class="mr-8 text-white" v-if="!isLogin"
           >Login</router-link
@@ -68,6 +70,11 @@ export default {
     },
     isLogin() {
       return this.$store.state.access_token;
+    },
+    productTo() {
+      return this.$store.state.isAdmin
+        ? "/products-admin"
+        : "/products-customer";
     },
   },
   watch: {
