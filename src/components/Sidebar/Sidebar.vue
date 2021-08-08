@@ -23,7 +23,6 @@
       <!-- User -->
       <ul class="md:hidden items-center flex flex-wrap list-none">
         <li class="inline-block relative">
-          <notification-dropdown />
         </li>
         <li class="inline-block relative">
           <user-dropdown />
@@ -58,16 +57,6 @@
             </div>
           </div>
         </div>
-        <!-- Form -->
-        <form class="mt-6 mb-4 md:hidden">
-          <div class="mb-3 pt-0">
-            <input
-              type="text"
-              placeholder="Search"
-              class="border-0 px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
-            />
-          </div>
-        </form>
 
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
@@ -120,7 +109,7 @@
                 ]"
               >
                 <i
-                  class="fas fa-tools mr-2 text-sm"
+                  class="fas fa-plus mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
                 Add New Product
@@ -165,7 +154,7 @@
                 ]"
               >
                 <i
-                  class="fas fa-map-marked mr-2 text-sm"
+                  class="fas fa-chart-bar mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
                 Report
@@ -180,7 +169,7 @@
 ) }
 
 <script>
-import UserDropdown from '@/components/Dropdowns/UserDropdown.vue'
+import UserDropdown from '../Dropdowns/UserDropdown.vue'
 
 export default {
   data () {
