@@ -6,6 +6,7 @@ import router from "../router";
 export default createStore({
   state: {
     products: [],
+    orders: [],
     isAdmin: false,
     access_token: "",
   },
@@ -18,6 +19,9 @@ export default createStore({
     },
     SET_ACCESS_TOKEN(state, payload) {
       state.access_token = payload;
+    },
+    SET_ORDERS(state, payload) {
+      state.orders.push(payload);
     },
   },
   actions: {
@@ -90,6 +94,7 @@ export default createStore({
     logout({ commit }) {
       commit("SET_ACCESS_TOKEN", "");
       commit("SET_IS_ADMIN", false);
+      commit("SET_ORDER", []);
       router.push({ path: "/" });
     },
   },

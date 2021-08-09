@@ -44,7 +44,10 @@
             duration-500
           "
         >
-          <i class="bx bx-shopping-bag p-2 pl-3 pr-3 text-white text-xl"></i>
+          <i
+            class="bx bx-shopping-bag p-2 pl-3 pr-3 text-white text-xl"
+            @click.prevent="toOrder(product.id)"
+          ></i>
         </div>
         <div
           class="
@@ -88,6 +91,9 @@ export default {
 
       rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
       return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+    },
+    toOrder(id) {
+      this.$router.push({ path: `/order/${id}` });
     },
   },
 };
