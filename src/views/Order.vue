@@ -80,6 +80,7 @@ export default {
         price: "",
         count: "",
         image_url: "",
+        stock: "",
       },
       errorMessage: "",
     };
@@ -95,6 +96,7 @@ export default {
         this.product.price = data.price;
         this.order.price = data.price;
         this.product.stock = data.stock;
+        this.order.stock = data.stock;
       })
       .catch((err) => {
         console.log(err);

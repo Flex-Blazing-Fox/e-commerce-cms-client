@@ -4,14 +4,33 @@
       <table class="w-2/3 border">
         <tr class="bg-primarycolor text-white">
           <th>Item</th>
+          <th>Stok</th>
           <th>Jumlah</th>
           <th>Subtotal</th>
+          <th>Status</th>
         </tr>
         <tr v-for="order in orders" :key="order.name">
-          <td class="text-center mt-2">{{ order.name }}</td>
-          <td class="text-center mt-2">{{ order.count }}</td>
+          <td class="text-center mt-2">
+            {{ order.name }}
+            <span
+              class="ml-2 text-sm text-red-400 cursor-pointer"
+              @click.prevent="removeOrder(order.name)"
+              >Remove</span
+            >
+          </td>
+          <td class="text-center mt-2">{{ order.stock }}</td>
+          <td class="text-center mt-2">
+            <input
+              type="number"
+              v-model="order.count"
+              class="w-16 text-center"
+            />
+          </td>
           <td class="text-center mt-2">
             {{ parseInt(order.count) * parseInt(order.price) }}
+          </td>
+          <td class="text-center mt-2">
+            {{ isAvailable(order.count, order.stock) }}
           </td>
         </tr>
       </table>
@@ -46,6 +65,18 @@ export default {
       orders: [],
     };
   },
+  methods: {
+    removeOrder(name) {
+      this.orders = this.orders.filter((order) => order.name === name);
+    },
+    isAvailable(toBuy, stock) {
+      if (toBuy <= stock) {
+        return "Barang Tersedia";
+      } else {
+        return "Stok Tidak Cukup";
+      }
+    },
+  },
   computed: {
     totalOrder() {
       return this.orders
@@ -56,5 +87,6 @@ export default {
   created() {
     this.orders = this.$store.state.orders;
   },
+  watch: {},
 };
 </script>
