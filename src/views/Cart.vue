@@ -62,10 +62,20 @@
         {{ errorMessage }}
       </div>
     </div>
+    <div class="mt-6 text-3xl text-blue-900 w-full ml-60">
+      Rekomendasi Buat Kamu:
+    </div>
+    <div class="mt-6 w-full ml-60 flex">
+      <div v-for="item in recommendedItems" :key="item.id">
+        <ProductCard :product="item"></ProductCard>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import ProductCard from "../components/ProductCard.vue";
+
 export default {
   name: "Cart",
   data() {
@@ -74,6 +84,7 @@ export default {
       errorMessage: "",
     };
   },
+  components: { ProductCard },
   methods: {
     removeOrder(id) {
       this.$store.dispatch("removeOrder", id);
@@ -102,7 +113,7 @@ export default {
       } else {
         this.$store.dispatch("sendOrder").then(() => {
           this.$store.commit("RESET_ORDERS");
-          this.errorMessage = ""
+          this.errorMessage = "";
         });
       }
     },
@@ -120,6 +131,12 @@ export default {
     orders() {
       return this.$store.state.orders;
     },
+    recommendedItems() {
+      return this.$store.state.recommended_items;
+    },
+  },
+  created() {
+    this.$store.dispatch("getRecommendations");
   },
 };
 </script>

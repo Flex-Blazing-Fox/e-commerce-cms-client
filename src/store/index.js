@@ -9,6 +9,7 @@ export default createStore({
     orders: [],
     isAdmin: false,
     access_token: "",
+    recommended_items: [],
   },
   mutations: {
     SET_PRODUCTS(state, payload) {
@@ -36,6 +37,9 @@ export default createStore({
     },
     RESET_ORDERS(state) {
       state.orders = [];
+    },
+    SET_RECOMMENDED_ITEMS(state, payload) {
+      state.recommended_items = [payload];
     },
   },
   actions: {
@@ -108,6 +112,24 @@ export default createStore({
         },
         data: context.state.orders,
       });
+    },
+    getRecommendations(context) {
+      let ids = context.state.orders.map((order) => order.id);
+      axios({
+        method: "POST",
+        url: "/order/recommendations",
+        headers: {
+          "Content-Type": "application/json",
+          access_token: context.state.access_token,
+        },
+        data: { ids: ids },
+      })
+        .then(({ data }) => {
+          return context.dispatch("getProduct", data.recommended_item_id);
+        })
+        .then(({ data }) => {
+          context.commit("SET_RECOMMENDED_ITEMS", data);
+        });
     },
     submitLogin(context, payload) {
       return axios({

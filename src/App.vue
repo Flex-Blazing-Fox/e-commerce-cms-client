@@ -25,7 +25,7 @@
         <router-link :to="productTo" class="mr-8 text-white"
           >Products</router-link
         >
-        <router-link to="/cart" class="mr-8 text-white">Cart</router-link>
+        <router-link to="/cart" class="mr-8 text-white" v-if="isLogin">Cart</router-link>
         <router-link to="/login" class="mr-8 text-white" v-if="!isLogin"
           >Login</router-link
         >
