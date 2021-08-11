@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store";
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (!["Home","Login","ProductsCustomer","About","Order"].includes(to.name) && !store.state.access_token) next({ name: "Home" });
+  else next();
 });
 
 export default router;

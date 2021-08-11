@@ -20,8 +20,22 @@ export default createStore({
     SET_ACCESS_TOKEN(state, payload) {
       state.access_token = payload;
     },
+    DELETE_ORDER(state, payload) {
+      state.orders = state.orders.filter((order) => +order.id !== payload);
+    },
     SET_ORDERS(state, payload) {
-      state.orders.push(payload);
+      const found = state.orders.some((order) => +order.id === +payload.id);
+      if (!found) {
+        state.orders.push(payload);
+      } else {
+        let index = state.orders.findIndex(
+          (order) => +order.id === +payload.id
+        );
+        state.orders[index].count = +state.orders[index].count + +payload.count;
+      }
+    },
+    RESET_ORDERS(state) {
+      state.orders = [];
     },
   },
   actions: {
@@ -81,6 +95,20 @@ export default createStore({
         data: payload.product,
       });
     },
+    removeOrder(context, payload) {
+      context.commit("DELETE_ORDER", payload);
+    },
+    sendOrder(context) {
+      return axios({
+        method: "POST",
+        url: "/order",
+        headers: {
+          "Content-Type": "application/json",
+          access_token: context.state.access_token,
+        },
+        data: context.state.orders,
+      });
+    },
     submitLogin(context, payload) {
       return axios({
         method: "POST",
@@ -94,7 +122,6 @@ export default createStore({
     logout({ commit }) {
       commit("SET_ACCESS_TOKEN", "");
       commit("SET_IS_ADMIN", false);
-      commit("SET_ORDER", []);
       router.push({ path: "/" });
     },
   },

@@ -76,6 +76,7 @@ export default {
         stock: "",
       },
       order: {
+        id: "",
         name: "",
         price: "",
         count: "",
@@ -97,6 +98,7 @@ export default {
         this.order.price = data.price;
         this.product.stock = data.stock;
         this.order.stock = data.stock;
+        this.order.id = data.id;
       })
       .catch((err) => {
         console.log(err);

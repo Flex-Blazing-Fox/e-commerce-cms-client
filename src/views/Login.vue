@@ -104,7 +104,7 @@ export default {
           if (data.role === "admin") {
             this.$router.push({ path: "/products-admin" });
           } else {
-            this.$store.state.orders
+            this.$store.state.orders.length > 0
               ? this.$router.push({ path: "/cart" })
               : this.$router.push({ path: "/" });
           }
