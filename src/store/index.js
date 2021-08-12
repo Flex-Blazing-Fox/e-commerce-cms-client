@@ -11,6 +11,9 @@ export default createStore({
   mutations: {
     SET_PRODUCTS (state, payload) {
       state.products = payload
+    },
+    SET_isLOGIN (state, payload) {
+      state.isLogin = payload
     }
   },
   actions: {
@@ -23,6 +26,7 @@ export default createStore({
       })
         .then(({ data }) => {
           localStorage.setItem('token', data.access_token)
+          context.commit('SET_isLOGIN', true)
           router.push({ path: '/admin' })
         })
         .catch(err => {
@@ -35,7 +39,7 @@ export default createStore({
         method: 'get',
         url: '/admin/product',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2Mjc2OTE1OTh9.I7hyJskt_AmGkfMEn7-fDpdqFQ134iZg1DDx3dSE4sU' // localStorage.access_token
+          access_token: localStorage.token // localStorage.access_token
         }
       })
         .then(({ data }) => {
@@ -50,7 +54,7 @@ export default createStore({
         method: 'get',
         url: '/admin/product/' + payload,
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2Mjc2OTE1OTh9.I7hyJskt_AmGkfMEn7-fDpdqFQ134iZg1DDx3dSE4sU' // localStorage.access_token
+          access_token: localStorage.token // localStorage.access_token
         }
       })
         .catch(err => {
@@ -62,7 +66,7 @@ export default createStore({
         method: 'post',
         url: '/admin/product',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2Mjc2OTE1OTh9.I7hyJskt_AmGkfMEn7-fDpdqFQ134iZg1DDx3dSE4sU' // localStorage.access_token
+          access_token: localStorage.token // localStorage.access_token
         },
         data: payload
       })
@@ -78,7 +82,7 @@ export default createStore({
         method: 'put',
         url: '/admin/product/' + payload.id,
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2Mjc2OTE1OTh9.I7hyJskt_AmGkfMEn7-fDpdqFQ134iZg1DDx3dSE4sU' // localStorage.access_token
+          access_token: localStorage.token // localStorage.access_token
         },
         data: payload
       })
@@ -94,7 +98,7 @@ export default createStore({
         method: 'delete',
         url: '/admin/product/' + payload,
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2Mjc2OTE1OTh9.I7hyJskt_AmGkfMEn7-fDpdqFQ134iZg1DDx3dSE4sU' // localStorage.access_token
+          access_token: localStorage.token // localStorage.access_token
         }
       })
         .then(() => {

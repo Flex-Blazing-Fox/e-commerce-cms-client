@@ -26,7 +26,10 @@ const routes = [
     children: [
       {
         path: 'dashboard',
-        component: Dashboard
+        component: Dashboard,
+        meta: {
+          auth: true
+        }
       },
       {
         path: 'add-product',
@@ -46,20 +49,6 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: '/customer',
-  //   component: Admin,
-  //   redirect: '/customer/dashboard',
-  //   children: [
-  //     {
-  //       path: '/admin/dashboard',
-  //       component: Dashboard,
-  //       meta: {
-  //         auth: true
-  //       }
-  //     }
-  //   ]
-  // },
   {
     path: '/login',
     component: Login
@@ -77,25 +66,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  if (store.state.isLogin) {
-    if (to.meta.auth) {
-      return {
-        path: to.path
-      }
-    } else {
-      return {
-        path: '/login'
-      }
+  if (to.meta.auth && !store.state.isLogin) {
+    return {
+      path: '/login'
     }
-  } else {
-    if (to.meta.auth) {
-      return {
-        path: '/admin'
-      }
-    } else {
-      return {
-        path: to.path
-      }
+  } else if (!to.meta.auth && store.state.isLogin) {
+    return {
+      path: '/admin'
     }
   }
 })
