@@ -86,7 +86,7 @@ export default {
           console.log(data)
           
           this.$store.dispatch('fetchProducts')
-          this.$router.push('/')
+          this.$router.push({ name: 'AdminHome' })
         })
         .catch(err => {
           console.log(err.response.data.errors)

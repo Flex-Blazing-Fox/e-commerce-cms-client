@@ -42,7 +42,7 @@ export default {
           console.log(data)
           this.name = ''
           this.$store.dispatch('fetchTypes')
-          this.$router.push('/')
+          this.$router.push({ name: 'AdminHome' })
         })
         .catch(err => {
           console.log(err.response.data.errors)

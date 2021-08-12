@@ -11,6 +11,7 @@ export default createStore({
     products: [],
     adminEmail: '',
     adminPassword: '',
+    cart: []
   },
   mutations: {
     SET_PRODUCTS(state, payload) {
@@ -40,6 +41,9 @@ export default createStore({
     },
     SET_TYPE_NAME(state, type) {
       state.typeName = type
+    },
+    ADD_CART(state, product) {
+      state.cart.push(product)
     }
   },
   actions: {
@@ -76,7 +80,7 @@ export default createStore({
         .then(({ data }) => {
           commit('SET_JWT', data.jwt)
           commit('REMOVE_ADMIN_CREDENTIALS')
-          router.push('/')
+          router.push({ name: 'AdminHome' })
         })
         .catch(err => {
           console.log(err.response.data.errors)
@@ -95,6 +99,9 @@ export default createStore({
         .catch(err => {
           console.log(err.response.data.errors)
         })
+    },
+    addToCart({ commit }, product) {
+      commit('ADD_CART', product)
     }
   }
 })

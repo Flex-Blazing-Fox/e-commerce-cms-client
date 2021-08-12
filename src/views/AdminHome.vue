@@ -1,6 +1,8 @@
 <template>
   <BodyWrapper>
-    <Navbar />
+    <Navbar>
+      <LogoutButton routeName="AdminLogin" />
+    </Navbar>
       <Wrapper size="w-3/5">
         <Banner 
           title="Tambah Produk" 
@@ -29,6 +31,7 @@ import Wrapper from '../components/Wrapper.vue'
 import Banner from '../components/Banner.vue'
 import Sidebar from '../components/Sidebar.vue'
 import ProductTable from '../components/ProductTable.vue'
+import LogoutButton from '../components/LogoutButton.vue'
 
 export default {
   name: 'AdminHome',
@@ -38,7 +41,8 @@ export default {
     Wrapper,
     Banner,
     Sidebar,
-    ProductTable
+    ProductTable,
+    LogoutButton
   },
   created() {
     this.$store.dispatch('fetchProducts')

@@ -4,10 +4,35 @@ import EditProduct from '../views/EditProduct.vue'
 import AddProduct from '../views/AddProduct.vue'
 import AdminLogin from '../views/AdminLogin.vue'
 import AddType from '../views/AddType.vue'
+import Home from '../views/Home.vue'
+import PageNotFound from '../views/PageNotFound.vue'
+import CustomerLogin from '../views/CustomerLogin.vue'
+import CustomerRegister from '../views/CustomerRegister.vue'
+import CartPage from '../views/CartPage.vue'
 
 const routes = [
   {
     path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/customer/login',
+    name: 'CustomerLogin',
+    component: CustomerLogin
+  },
+  {
+    path: '/customer/register',
+    name: 'CustomerRegister',
+    component: CustomerRegister
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: CartPage
+  },
+  {
+    path: '/admin',
     name: 'AdminHome',
     component: AdminHome
   },
@@ -30,6 +55,11 @@ const routes = [
     path: '/add-type',
     name: 'AddType',
     component: AddType
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'PageNotFound',
+    component: PageNotFound
   }
 ]
 
@@ -39,8 +69,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'AdminLogin' && !localStorage.access_token) next({ name: 'AdminLogin' })
-  else next()
+  if (
+    (to.name === 'AdminHome' || 
+      to.name === 'EditProduct' || 
+      to.name === 'AddProduct' || 
+      to.name === 'AddType') && 
+    !localStorage.access_token) {
+      next({ name: 'AdminLogin' })
+    } else {
+      next()
+    }
 })
 
 export default router
