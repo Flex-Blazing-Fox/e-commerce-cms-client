@@ -23,13 +23,15 @@
         Update Stock
       </a>
       <a
-        href="javascript:void(0);"
+        href=""
+        @click.prevent="pageUpdate"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
       >
         Edit Product
       </a>
       <a
-        href="javascript:void(0);"
+        href=""
+        @click.prevent="deleteProduct"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
       >
         Delete Product
@@ -39,8 +41,10 @@
 </template>
 <script>
 import { createPopper } from '@popperjs/core'
+import router from '../../router'
 
 export default {
+  props: ['product'],
   data () {
     return {
       dropdownPopoverShow: false
@@ -57,6 +61,12 @@ export default {
           placement: 'bottom-start'
         })
       }
+    },
+    pageUpdate () {
+      router.push('/admin/update-product/' + this.product.id)
+    },
+    deleteProduct () {
+      this.$store.dispatch('deleteProduct', this.product.id)
     }
   }
 }
