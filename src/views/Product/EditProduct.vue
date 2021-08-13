@@ -24,6 +24,10 @@
           <option v-for="category in categories" :key="category.id" :value="category.id">{{category.categoryName}}</option>
         </select>
       </div>
+      <div class="form-grup">
+        <label for="productDescriptios">Descriptions</label>
+        <textarea v-model="product.descriptions" name="descriptions" id="" cols="30" rows="3" class="form-control"></textarea>
+      </div>
       <div class="form-group">
           <button @click.prevent="updateProduct" type="submit" class="btn btn-success">Simpan</button>
           <router-link to="/product"  class="btn btn-warning">Cancel</router-link>
@@ -37,13 +41,7 @@ export default {
   name: 'EditProduct',
   data () {
     return {
-      product: {
-        name: '',
-        image_url: '',
-        price: '',
-        stock: '',
-        categoryId: ''
-      }
+      product: []
     }
   },
   computed: {

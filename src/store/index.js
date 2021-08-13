@@ -11,7 +11,9 @@ export default new Vuex.Store({
   state: {
     products: [],
     productCategories: [],
-    filterCateory: []
+    filterCateory: [],
+    shoppingCart: [],
+    province: []
   },
   mutations: {
     SET_PRODUCT (state, payload) {
@@ -23,6 +25,12 @@ export default new Vuex.Store({
     SET_FILTER_CATEGORY (state, payload) {
       const category = state.productCategories.filter(cat => cat.id === payload)
       state.filterCateory = category
+    },
+    SET_SHOPPING_CART (state, payload) {
+      state.shoppingCart = payload
+    },
+    SET_PROVINCE (state, payload) {
+      state.province = payload
     }
   },
   actions: {
@@ -100,6 +108,7 @@ export default new Vuex.Store({
           image_url: payload.product.image_url,
           price: payload.product.price,
           stock: payload.product.stock,
+          descriptions: payload.product.descriptions,
           category: payload.product.categoryId
         }
       })
@@ -186,9 +195,93 @@ export default new Vuex.Store({
     },
     filterCategory ({ commit }, payload) {
       commit('SET_FILTER_CATEGORY', payload)
-    }
+    },
 
     // End Of Category Actions
+
+    uploadVideo (context, payload) {
+      const file = payload.files[0]
+      const newData = new FormData()
+      newData.append('file', file)
+
+      axios({
+        method: 'POST',
+        url: '/videos',
+        data: newData
+      })
+        .then(() => {
+          console.log('berhasil')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    fetchShoppingCart ({ commit }) {
+      axios({
+        method: 'GET',
+        url: '/cart'
+      })
+        .then(({ data }) => {
+          console.log(data)
+          commit('SET_SHOPPING_CART', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    addToCart ({ dispatch }, payload) {
+      console.log(payload)
+      axios({
+        method: 'POST',
+        url: `/cart/${payload}`
+      })
+        .then(() => {
+          dispatch('fetchShoppingCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    add ({ dispatch }, payload) {
+      axios({
+        method: 'PATCH',
+        url: `/cart/add/${payload}`
+      })
+        .then(() => {
+          dispatch('fetchShoppingCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    sub ({ dispatch }, payload) {
+      axios({
+        method: 'PATCH',
+        url: `/cart/sub/${payload}`
+      })
+        .then(() => {
+          dispatch('fetchShoppingCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    getProvince ({ commit }) {
+      axios({
+        method: 'GET',
+        url: 'shipping/province'
+      })
+        .then(({ data }) => {
+          console.log(data.rajaongkir.results)
+          commit('SET_PROVINCE', data.rajaongkir.results)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
   },
   modules: {
   }

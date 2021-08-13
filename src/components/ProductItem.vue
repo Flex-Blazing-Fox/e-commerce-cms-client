@@ -1,12 +1,14 @@
 <template>
   <div class="col-md-3">
+    <router-link :to="`/product/${product.id}`" :productDetail="product">
     <div class="card">
-    <img src="https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2020/02/vegetables-name-in-english-16.jpg" alt="" class="card-img-top">
+    <img :src="product.image_url" alt="" class="card-img-top">
     <div class="card-body">
       <h5 class="card-title">{{product.name}}</h5>
       <span class="card-text">Rp. {{product.price}}</span>
     </div>
     </div>
+    </router-link>
   </div>
 </template>
 
@@ -17,10 +19,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+a{
+  text-decoration: none;
+  color:black;
+}
+
+a:hover{
+  color:black;
+}
 img{
   width:100%;
-  height:180px;
+  height:200px;
   object-fit: cover;
   overflow:hidden;
 }

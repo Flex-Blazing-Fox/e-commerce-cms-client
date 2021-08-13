@@ -19,7 +19,7 @@
                   <tr v-for="product in products" :key="product.id">
                       <td>{{ product.id }}</td>
                       <td>{{ product.name }}</td>
-                      <td>{{ product.image_url }}</td>
+                      <td><img :src="product.image_url" alt=""></td>
                       <td>{{ product.Category.categoryName }}</td>
                       <td>
                           <button @click="toEdit(product.id)" class="btn btn-primary btn-sm">Edit</button>
@@ -51,8 +51,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .btn{
     margin:2px;
+}
+img{
+  width:52px;
+  height:52px;
 }
 </style>
