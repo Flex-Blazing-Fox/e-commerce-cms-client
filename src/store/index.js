@@ -44,6 +44,9 @@ export default createStore({
     },
     ADD_CART(state, product) {
       state.cart.push(product)
+    },
+    REMOVE_CART(state) {
+      state.cart = []
     }
   },
   actions: {

@@ -78,7 +78,33 @@ export default {
   },
   methods: {
     buy() {
-      
+      let editStockPromises = []
+      this.$store.state.cart.forEach(product => {
+        editStockPromises.push(
+          axios({
+            url: '/products/' + product.id,
+            method: 'PUT',
+            headers: { access_token: localStorage.access_token },
+            data: {
+              name: product.name,
+              image_url: product.image_url,
+              price: product.price,
+              stock: product.stock - 1,
+              type_name: product.type
+            }
+          })
+        )
+      })
+
+      axios.all(editStockPromises)
+        .then(({ data }) => {
+          console.log(data)
+          this.$store.commit('REMOVE_CART')
+          this.$router.push('/')
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
     }
   }
 }
