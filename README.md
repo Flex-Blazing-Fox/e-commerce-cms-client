@@ -1,5 +1,9 @@
 # client
 
+````
+BASE_URL=https://agreculture-8e978.web.app/
+```
+
 ## Project setup
 ```
 npm install
