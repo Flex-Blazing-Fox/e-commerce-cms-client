@@ -79,22 +79,22 @@ export default {
   methods: {
     buy() {
       let editStockPromises = []
-      this.$store.state.cart.forEach(product => {
+      for (let productId in this.cart) {
         editStockPromises.push(
           axios({
-            url: '/products/' + product.id,
+            url: '/products/' + productId,
             method: 'PUT',
             headers: { access_token: localStorage.access_token },
             data: {
-              name: product.name,
-              image_url: product.image_url,
-              price: product.price,
-              stock: product.stock - 1,
-              type_name: product.type
+              name: this.cart[productId].product.name,
+              image_url: this.cart[productId].product.image_url,
+              price: this.cart[productId].product.price,
+              stock: this.cart[productId].product.stock - this.cart[productId].count,
+              type_name: this.cart[productId].product.type
             }
           })
         )
-      })
+      }
 
       axios.all(editStockPromises)
         .then(({ data }) => {
