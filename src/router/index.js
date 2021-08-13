@@ -6,16 +6,19 @@ import Dashboard from '../views/admin/Dashboard.vue'
 import AddProduct from '../views/admin/AddProduct.vue'
 import ListProduct from '../views/admin/TablesListProduct.vue'
 import UpdateProduct from '../views/admin/UpdateProduct.vue'
-import Maps from '../views/admin/Maps.vue'
 // views for Auth layout
 import Login from '../views/Login.vue'
 // views without layouts
 import Index from '../views/Index.vue'
-import store from '../store'
+// cust
+import Customer from '../layouts/Customer.vue'
+import LoginCust from '../views/cust/LoginCust.vue'
+import Cart from '../views/cust/Cart.vue'
 
 // const token = localStorage.token
 
 const routes = [
+  // admin
   {
     path: '/admin',
     component: Admin,
@@ -26,10 +29,7 @@ const routes = [
     children: [
       {
         path: 'dashboard',
-        component: Dashboard,
-        meta: {
-          auth: true
-        }
+        component: Dashboard
       },
       {
         path: 'add-product',
@@ -42,20 +42,41 @@ const routes = [
       {
         path: 'update-product/:id',
         component: UpdateProduct
-      },
-      {
-        path: 'maps',
-        component: Maps
       }
     ]
   },
+  // cutomer
+  {
+    path: '/customer',
+    component: Customer,
+    redirect: '/',
+    children: [
+      {
+        path: 'login',
+        component: LoginCust
+      },
+      {
+        path: 'cart',
+        component: Cart,
+        meta: {
+          custAuth: true
+        }
+      }
+    ]
+  },
+  // guest
   {
     path: '/login',
     component: Login
   },
   {
     path: '/',
-    component: Index
+    component: Index,
+    children: [
+      {
+        path: 'product-detail'
+      }
+    ]
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
@@ -66,15 +87,22 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  if (to.meta.auth && !store.state.isLogin) {
+  if (to.path.substr(0, 6) === '/admin' && to.meta.auth && !localStorage.token) {
     return {
       path: '/login'
     }
-  } else if (!to.meta.auth && store.state.isLogin) {
+  } else if (to.path === '/login' && !to.meta.auth && localStorage.token) {
     return {
       path: '/admin'
     }
+  } else if (to.path.substr(0, 9) === '/customer' && to.meta.custAuth && !localStorage.custToken) {
+    return {
+      path: '/customer/login'
+    }
+  } else if (to.path === '/customer/login' && !to.meta.custAuth && localStorage.custToken) {
+    return {
+      path: '/'
+    }
   }
 })
-
 export default router

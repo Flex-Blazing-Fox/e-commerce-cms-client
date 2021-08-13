@@ -142,7 +142,7 @@
           </li>
 
           <li class="items-center">
-            <router-link to="/admin/maps" v-slot="{ href, navigate, isActive }">
+            <router-link to="/admin/order-list" v-slot="{ href, navigate, isActive }">
               <a
                 :href="href"
                 @click="navigate"
@@ -157,7 +157,7 @@
                   class="fas fa-chart-bar mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                Report
+                Order List
               </a>
             </router-link>
           </li>

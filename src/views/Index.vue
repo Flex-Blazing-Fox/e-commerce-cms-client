@@ -1,5 +1,6 @@
 <template>
   <div>
+    <home-navbar />
     <section
       class="header relative items-center flex h-screen max-h-860-px"
     >
@@ -10,7 +11,7 @@
               TOK.D
             </h2>
             <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-              Tingkatkan omset penjualan melalui TOK.ID
+              Tingkatkan omset penjualan melalui TOK.D
             </p>
             <div class="mt-12">
               <router-link
@@ -30,15 +31,33 @@
         alt="..."
       />
     </section>
+    <div class="home-container w-100 flex justify-center flex-wrap p-4">
+      <product-cust
+      v-for="product in products"
+      :key="product.id"
+      :product="product"
+      />
+    </div>
   </div>
 </template>
 <script>
-
+import HomeNavbar from '../components/Navbars/HomeNavbar.vue'
+import ProductCust from '../components/Cards/CardProductCust.vue'
 export default {
   data () {
     return {
     }
   },
-  components: {}
+  components: { HomeNavbar, ProductCust },
+  computed: {
+    products () {
+      return this.$store.state.productsCust
+    }
+  },
+  created () {
+    this.$store.dispatch('getAllProductsCust')
+  },
+  mounted () {
+  }
 }
 </script>

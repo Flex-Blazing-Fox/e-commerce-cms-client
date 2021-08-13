@@ -6,18 +6,27 @@ axios.defaults.baseURL = 'http://localhost:3000'
 export default createStore({
   state: {
     products: [],
-    isLogin: false
+    custLogin: localStorage.custToken,
+    productsCust: [],
+    carts: []
   },
   mutations: {
     SET_PRODUCTS (state, payload) {
       state.products = payload
     },
-    SET_isLOGIN (state, payload) {
-      state.isLogin = payload
+    // cust
+    SET_PRODUCTS_CUST (state, payload) {
+      state.productsCust = payload
+    },
+    ADD_CUST_CART (state, payload) {
+      state.carts.push(payload)
+    },
+    SET_CUST_CART (state, payload) {
+      state.carts = payload
     }
   },
   actions: {
-    // login
+    // login admin
     login (context, payload) {
       axios({
         method: 'post',
@@ -25,9 +34,12 @@ export default createStore({
         data: payload
       })
         .then(({ data }) => {
-          localStorage.setItem('token', data.access_token)
-          context.commit('SET_isLOGIN', true)
-          router.push({ path: '/admin' })
+          if (data.token) {
+            localStorage.setItem('token', data.token)
+            router.push({ path: '/admin' })
+          } else {
+            throw new Error({ name: 'LOGIN_FAILED' })
+          }
         })
         .catch(err => {
           console.log(err)
@@ -103,6 +115,88 @@ export default createStore({
       })
         .then(() => {
           context.dispatch('getAllProducts')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // customer page
+    loginCust (context, payload) {
+      axios({
+        method: 'post',
+        url: '/customer/login',
+        data: payload
+      })
+        .then(({ data }) => {
+          if (data.custToken) {
+            localStorage.setItem('custToken', data.custToken)
+            router.push({ path: '/' })
+          } else {
+            throw new Error({ name: 'LOGIN_FAILED' })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getAllProductsCust (context, payload) {
+      axios({
+        method: 'get',
+        url: '/customer/product'
+      })
+        .then(({ data }) => {
+          context.commit('SET_PRODUCTS_CUST', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    addToCart (context, payload) {
+      axios({
+        method: 'post',
+        url: '/customer/cart',
+        headers: {
+          access_token: localStorage.custToken
+        },
+        data: {
+          productId: payload.id,
+          qty: 1
+        }
+      })
+        .then(({ data }) => {
+          context.commit('ADD_CUST_CART', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getCart (context, payload) {
+      axios({
+        method: 'get',
+        url: '/customer/cart',
+        headers: {
+          access_token: localStorage.custToken
+        }
+      })
+        .then(({ data }) => {
+          context.commit('SET_CUST_CART', data.cart)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    checkout (context, payload) {
+      axios({
+        method: 'post',
+        url: '/customer/checkout',
+        headers: {
+          access_token: localStorage.custToken
+        }
+      })
+        .then(({ data }) => {
+          router.push({ path: '/customer/cart' })
+          console.log(data)
+          // window.snap.pay(data.transactionToken)
         })
         .catch(err => {
           console.log(err)
